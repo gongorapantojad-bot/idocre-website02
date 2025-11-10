@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDOCRE - Industrial Data Optimization and Control</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #003d82;
+            --accent: #00a8e8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            width: 280px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+        }
+        
+        .logo:hover {
+            transform: scale(1.08) rotate(1deg);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+        }
+        
+        .company-name {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--secondary);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links li {
+            margin: 0 18px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            font-size: 1.05rem;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a:hover::before {
+            width: 80%;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 20px;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            padding: 35px;
+            margin-bottom: 35px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .team-photo {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            /* Estático - sin transiciones ni efectos hover */
+        }
+        
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-icon {
+            font-size: 3.2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Values Section */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        
+        .value-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .value-item:hover .value-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Organization Chart */
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .org-level {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .org-item {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            min-width: 220px;
+            max-width: 280px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .org-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .org-item.director {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .org-item.director:hover {
+            transform: scale(1.08);
+        }
+        
+        /* Success Story */
+        .success-story {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 50px 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-story::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat {
+            margin: 0 30px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        /* Contact Section */
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            justify-content: center;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            flex: 1;
+            min-width: 260px;
+            max-width: 360px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .contact-icon {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark), #2c3e50);
+            color: white;
+            padding: 50px 0 25px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 12px;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        .copyright {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links li {
+                margin: 8px 0;
+            }
+            
+            .company-name {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .logo {
+                width: 220px;
+                height: 110px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .stat-value {
+                font-size: 2.8rem;
+            }
+            
+            .team-photo {
+                height: 300px;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                width: 180px;
+                height: 90px;
+            }
+            
+            .company-name {
+                font-size: 1.8rem;
+            }
+            
+            .team-photo {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Logo -->
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <!-- Logo real con dimensiones más grandes y estéticas -->
+                <img src="Logo.jpg" alt="IDOCRE Logo" class="logo">
+                <p class="tagline">Industrial Data Optimization and Control. Research and Engineering</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#about">Quiénes Somos</a></li>
+                <li><a href="#mission">Misión y Visión</a></li>
+                <li><a href="#services">Servicios</a></li>
+                <li><a href="#values">Valores</a></li>
+                <li><a href="#organization">Organización</a></li>
+                <li><a href="#success">Casos de Éxito</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Quiénes Somos</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="card">
+                        <p>IDOCRE es una empresa dedicada al análisis de datos industriales fundamentado en la inteligencia artificial, para la generación de software y sistemas de control. Nuestro objetivo es brindar soluciones que optimicen procesos, mejoren la calidad del producto, y reduzcan costos operativos, siempre alineados a las metas de cada cliente.</p>
+                        <p>IDOCRE surge como respuesta a la necesidad de integrar inteligencia artificial en los procesos industriales para mejorar la toma de decisiones, la eficiencia y la seguridad en la operación. Desde sus inicios, la empresa se ha caracterizado por su profesionalismo y compromiso con la innovación.</p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <!-- Imagen de trabajo estática y grande -->
+                    <img src="LogoIAambiente.png" alt="Entorno de trabajo IDOCRE" class="team-photo">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Mission and Vision Section -->
+    <section id="mission" style="background-color: #f0f5ff;">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="card">
+                        <h3 class="section-title" style="font-size: 1.8rem;">Misión</h3>
+                        <p>Brindar el conocimiento oculto en lo más profundo de los procesos industriales, mediante fundamentos de la inteligencia artificial, a fin de que cada empresa consiga el óptimo beneficio de sus recursos.</p>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <div class="card">
+                        <h3 class="section-title" style="font-size: 1.8rem;">Visión</h3>
+                        <p>Establecer la inteligencia artificial como base de optimización y predicción en todos los procesos industriales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Análisis Predictivo</h3>
+                    <p>Desarrollo de software especializado para análisis predictivo que anticipa tendencias y comportamientos en sus procesos.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Sistemas de Control</h3>
+                    <p>Implementación de sistemas de control basados en inteligencia artificial para optimizar la operación de sus plantas.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Consultoría en Optimización</h3>
+                    <p>Consultoría especializada en optimización de procesos industriales para maximizar eficiencia y rentabilidad.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Análisis de Datos</h3>
+                    <p>Generación y análisis de bases de datos dinámicas y en estado estacionario para la toma de decisiones informadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Values Section -->
+    <section id="values" style="background-color: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Nuestros Valores</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Calidad</h3>
+                    <p>Excelencia en cada proyecto y solución que entregamos.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Responsabilidad</h3>
+                    <p>Comprometidos con los resultados y el éxito de nuestros clientes.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Innovación</h3>
+                    <p>Buscamos constantemente nuevas formas de resolver problemas complejos.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Humanismo</h3>
+                    <p>Ponemos a las personas en el centro de nuestras soluciones tecnológicas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sectors Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Sectores de Aplicación</h2>
+            <div class="card">
+                <p style="text-align: center; font-size: 1.3rem; font-weight: 500;">
+                    Petroquímica, Farmacéutica, Alimentos, Manufactura, Energía, Minería, y cualquier industria que requiera optimización de procesos.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Organization Section -->
+    <section id="organization" style="background-color: #f0f5ff;">
+        <div class="container">
+            <h2 class="section-title">Nuestra Organización</h2>
+            <div class="org-chart">
+                <div class="org-level">
+                    <div class="org-item director">
+                        <h3>DIRECCIÓN</h3>
+                        <p>Gestiona recursos y proyectos, asegurando calidad, seguridad y cumplimiento de objetivos.</p>
+                    </div>
+                </div>
+                <div class="org-level">
+                    <div class="org-item">
+                        <h3>GERENTE DE PROYECTOS</h3>
+                        <p>Supervisa los proyectos, verifica cumplimiento de objetivos, y aprueba contratos.</p>
+                    </div>
+                </div>
+                <div class="org-level">
+                    <div class="org-item">
+                        <h3>ESPECIALISTA DE CONTROL</h3>
+                        <p>Responsable del diseño e implementación de estrategias de control industrial.</p>
+                    </div>
+                    <div class="org-item">
+                        <h3>ESPECIALISTA DE PROCESOS</h3>
+                        <p>Identifica variables de proceso y equipos involucrados, asegurando la mejora continua.</p>
+                    </div>
+                    <div class="org-item">
+                        <h3>ANALISTA DE CONTABILIDAD</h3>
+                        <p>Gestiona los aspectos financieros y presupuestales de los proyectos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Success Stories Section -->
+    <section id="success">
+        <div class="container">
+            <h2 class="section-title">Casos de Éxito</h2>
+            <div class="success-story">
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Optimización en Industria Alimentaria</h3>
+                <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto;">Uno de nuestros proyectos recientes consistió en la optimización de un proceso de producción en la industria alimentaria, logrando una reducción del 15% en costos operativos y un aumento del 10% en la eficiencia del sistema de control.</p>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">15%</div>
+                        <div class="stat-label">Reducción de Costos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">10%</div>
+                        <div class="stat-label">Aumento de Eficiencia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Methodology Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Nuestra Metodología</h2>
+            <div class="card">
+                <p style="font-size: 1.1rem;">Nuestra metodología se basa en la recolección confiable de datos históricos, el desarrollo de modelos matemáticos rigurosos y la aplicación de técnicas avanzadas de inteligencia artificial. El proceso incluye reuniones iniciales, identificación de necesidades, revisión en campo, y validación de modelos antes de la entrega final.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Contáctanos</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Correo Electrónico</h3>
+                    <p>diegoeg_pantoja@hotmail.com</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Teléfono</h3>
+                    <p>+52 (444) 299 3926</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Dirección</h3>
+                    <p>Calle San Bonifacio, No. 501, Col. Buenos Aires, CP 78130. San Luis Potosi, S. L. P., México</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 15px;">IDOCRE</h3>
+                    <p>Industrial Data Optimization and Control. Research and Engineering</p>
+                </div>
+                <div class="footer-section">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px;">Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">Quiénes Somos</a></li>
+                        <li><a href="#services">Servicios</a></li>
+                        <li><a href="#organization">Organización</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 15px;">Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 IDOCRE. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple animation for elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe cards and sections for animation (excluyendo la imagen de trabajo)
+            const elementsToAnimate = document.querySelectorAll('.card, .service-card, .value-item, .org-item, .contact-card');
+            elementsToAnimate.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+            
+            // Add smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
